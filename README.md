@@ -1,13 +1,41 @@
 # USPS.AddressValidation
 
-This is  POC created for validating Address. 
+This is a Proof of Concept project created for validating US Address using UPS APIs using .NET:
+
+- https://www.ups.com/upsdeveloperkit/downloadresource?loc=en_US
+- https://www.ups.com/upsdeveloperkit/downloadresource?loc=en_US
 
 ## Dependency
 Auto fac
 
 ## How To
 
-Coming soon
+The core project provides an AutoFac module UpsAutoFacModule that will wire up the internal dependencies.
+
+Initialize the autofac container and configure the UPS Account Settings.
+```sh
+ var builder = new ContainerBuilder();
+
+            builder.Register(c => new UpsAccountConfig()
+            {
+                StreetValidationUri = new Uri("https://onlinetools.ups.com/webservices/XAV"),
+                CityStateZipValidationUri = new Uri("https://wwwcie.ups.com/ups.app/xml/AV"),
+                CountryCode = "US",
+                //Enter user name and password
+                Password = "",
+                UserName = "",
+                AccessLicenseNumber = ""
+            });
+            builder.RegisterModule(new UpsAutoFacModule());
+
+            _container = builder.Build();
+```
+The Core module exposes two interfaces:
+ - IStreetValidator
+ - ICityStateZipValidator
+ 
+
+More details coming soon
 
 ###License
 
